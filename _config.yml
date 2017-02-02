@@ -16,5 +16,3 @@ github_username: leni536
 
 # Build settings
 markdown: kramdown
-# exclude: [MathJax]
-# keep_files: [MathJax]
