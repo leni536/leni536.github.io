@@ -7,12 +7,14 @@
 
 # Site settings
 title: Lénárd Szolnoki's programming site
-email: mail@lenardszolnoki.com
+email: blog@lenardszolnoki.com
 description: > # this means to ignore newlines until "baseurl:"
         This is my personal website intended mainly for sharing my programming ideas/works.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://programming.lenardszolnoki.com" # the base hostname & protocol for your site
+url: "https://leni536.github.io" # the base hostname & protocol for your site
 github_username: leni536
 
 # Build settings
 markdown: kramdown
+#exclude: [MathJax]
+#keep_files: [MathJax]
