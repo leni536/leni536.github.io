@@ -253,3 +253,20 @@ There can easily be a CPU instruction that could help beating my method at least
 2. Fun fact: $$b_i \mathbin{\&} 1$$ is the [Thue--Morse sequence](https://en.wikipedia.org/wiki/Thue%E2%80%93Morse_sequence)
 3. I use a variation of my algorithm in my [fast Hilbert-curve](https://https://github.com/leni536/fast_hilbert_curve) library.
 For my purposes I don't need to shift $$e_i$$ and $$o_i$$.
+
+**Update2:** [IJzerbaard](https://www.reddit.com/r/programming/comments/da1juk/implementations_for_gray_code_encoding_and/f1mul2e?utm_source=share&utm_medium=web2x) discovered an other improvement: the left shifting can be done early before the pdep instructions, this saves a single instruction in the resulting binary when compiled with gcc:
+
+```c
+#include <stdint.h>
+#include <x86intrin.h>
+uint32_t gray_decode(uint32_t i) {
+    uint32_t evens
+        = _pdep_u32(0x55555555u,i << 1);
+    uint32_t odds
+        = _pdep_u32(0xAAAAAAAAu,i << 1);
+    uint32_t popcount
+        = __builtin_popcount(i);
+    return (-(popcount & 1))
+           ^ (odds - evens);
+}
+```
