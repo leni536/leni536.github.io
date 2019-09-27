@@ -110,8 +110,8 @@ uint32_t gray_decode(uint32_t i) {
         = _pdep_u32(0xAAAAAAAAu,i);
     uint32_t popcount
         = __builtin_popcount(i);
-    return (~(-(popcount & 1)))
-            ^ ((evens << 1) + (~(odds << 1)));
+    return (-(popcount & 1))
+           ^ ((odds << 1) - (evens << 1));
 }
 ```
 
@@ -185,6 +185,12 @@ Since bitwise negation is required for the even case an additional bitwise negat
 
 $$
     b_i = (\neg(-(p_i \mathbin{\&} 1))) \xor ((e_i \ll 1) + \neg(o_i \ll 1))
+$$
+
+**Update:** [IJzerbaard pointed out](https://www.reddit.com/r/programming/comments/da1juk/implementations_for_gray_code_encoding_and/f1mp1rt?utm_source=share&utm_medium=web2x) that this expression can be further simplified by using the $$x \xor (\neg y) = (\neg x) \xor y$$ and $$\neg(\neg x+y) = x-y$$ identities: 
+
+$$
+    b_i = (-(p_i \mathbin{\&} 1)) \xor ((o_i \ll 1) - (e_i \ll 1))
 $$
 
 The `popcnt` and `pdep` CPU instructions can be used to calculate $$e_i$$, $$o_i$$ and $$p_i$$ efficiently.
