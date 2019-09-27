@@ -14,8 +14,10 @@ $$
     \newcommand{\xor}{\wedge}
     \newcommand{\rshift}{\gg}
     \renewcommand{\neg}{\mathord{\sim}}
-    a: \mathcal{N} \rightarrow \mathcal{N} \\
-    a_i = i \xor (i \rshift 1),
+    \begin{align}
+    &a: \mathcal{N} \rightarrow \mathcal{N} \\
+    &a_i = i \xor (i \rshift 1),
+    \end{align}
 $$
 
 where $$\xor$$ denotes the ,,bitwise exclusive or'' and $$\rshift$$ denotes the ,,bitwise right shift'' operators.
@@ -41,11 +43,13 @@ $$
 It can be shown that $$b$$ is indeed the inverse of $$a$$ using the commutative and associative properties of $$\xor$$ and the following identities:
 
 $$
-    x \xor x = 0 \\
-    x \xor 0 = x \\
-    (x \xor y)\rshift n = (x \rshift n)\xor(y \rshift n) \\
-    (x \rshift n) \rshift m = x \rshift (n+m) \\
-    x \rshift (\lfloor \log_2 x \rfloor + 1) = 0
+\begin{align}
+    x \xor x &= 0 \\
+    x \xor 0 &= x \\
+    (x \xor y)\rshift n &= (x \rshift n)\xor(y \rshift n) \\
+    (x \rshift n) \rshift m &= x \rshift (n+m) \\
+    x \rshift (\lfloor \log_2 x \rfloor + 1) &= 0
+\end{align}
 $$
 
 # Implementations
