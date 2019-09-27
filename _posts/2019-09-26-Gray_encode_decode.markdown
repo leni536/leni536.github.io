@@ -7,8 +7,13 @@ date:   2019-09-26 10:49:00 +0200
 # Gray code encoding
 
 Gray code encoding is a bijective function between natural numbers (including 0) in a way that the Gray code of subsequent integers only differ in a single binary digit.
-This property doesn't uniquely define this function.
-I use the following common definition:
+This encoding was proved useful for rotary encoders and other kinds of counting where switching multiple bits at once would be problematic.
+
+![pdep figure](/assets/Gray_10bit_rotary_encoder.svg)<br>
+A 10bit Gray code rotary encoder.
+{: style="text-align: center;"}
+
+I use the following common definition for Gray code encoding:
 
 $$
     \newcommand{\xor}{\wedge}
@@ -65,6 +70,7 @@ unsigned gray_encode(unsigned i) {
 One can implement Gray code decoding directly from the defining expression of $$b_i$$:
 
 ```c
+#include <stdint.h>
 unsigned gray_decode(unsigned i) {
     unsigned ret = 0;
     while (i != 0) {
@@ -79,6 +85,7 @@ One can actually do better for a known fixed-width integral type.
 The following algorithm is from [Wikipedia](https://en.wikipedia.org/wiki/Gray_code#Converting_to_and_from_Gray_code):
 
 ```c
+#include <stdint.h>
 uint32_t gray_decode(uint32_t i) {
     i ^= (i >> 16);
     i ^= (i >> 8);
@@ -94,11 +101,15 @@ One can show the correctness of this implementation using the identities I prese
 I also developed an alternative implementation that makes use of the `popcnt` and `pdep` x86_64 CPU instructions (part of the POPCNT and BMI2 extensions respectively).
 
 ```c
+#include <stdint.h>
 #include <x86intrin.h>
 uint32_t gray_decode(uint32_t i) {
-    uint32_t evens = _pdep_u32(0x55555555u,i);
-    uint32_t odds  = _pdep_u32(0xAAAAAAAAu,i);
-    uint32_t popcount = __builtin_popcount(i);
+    uint32_t evens
+        = _pdep_u32(0x55555555u,i);
+    uint32_t odds
+        = _pdep_u32(0xAAAAAAAAu,i);
+    uint32_t popcount
+        = __builtin_popcount(i);
     return (~(-(popcount & 1)))
             ^ ((evens << 1) + (~(odds << 1)));
 }
