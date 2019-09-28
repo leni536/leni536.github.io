@@ -251,7 +251,7 @@ The PCLMUL extension provides this operation, but it can only carry-less multipl
 The performance of this method wasn't great the last time I tried.
 There can easily be a CPU instruction that could help beating my method at least in a streaming case, but I'm not familiar with all of the vector instructions.
 2. Fun fact: $$b_i \mathbin{\&} 1$$ is the [Thue--Morse sequence](https://en.wikipedia.org/wiki/Thue%E2%80%93Morse_sequence)
-3. I use a variation of my algorithm in my [fast Hilbert-curve](https://https://github.com/leni536/fast_hilbert_curve) library.
+3. I use a variation of my algorithm in my [fast Hilbert-curve](https://github.com/leni536/fast_hilbert_curve) library.
 For my purposes I don't need to shift $$e_i$$ and $$o_i$$.
 
 **Update2:** [IJzerbaard](https://www.reddit.com/r/programming/comments/da1juk/implementations_for_gray_code_encoding_and/f1mul2e?utm_source=share&utm_medium=web2x) discovered an other improvement: the left shifting can be done early before the pdep instructions, this saves a single instruction in the resulting binary when compiled with gcc:
